@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enter Fixed Tasks</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Enter Your Fixed Tasks for the Day</h1>
+
+    <form action="/submit_fixed_tasks" method="POST">
+        <div id="fixed-tasks-container">
+            <!-- A section to add multiple fixed tasks -->
+            <div class="fixed-task">
+                <label for="task_name">Task Name:</label>
+                <input type="text" name="task_name[]" required><br>
+
+                <label for="start_time">Start Time:</label>
+                <input type="time" name="start_time[]" required><br>
+
+                <label for="end_time">End Time:</label>
+                <input type="time" name="end_time[]" required><br>
+            </div>
+        </div>
+
+        <button type="button" onclick="addFixedTask()">Add Another Fixed Task</button><br><br>
+
+        <input type="submit" value="Submit Fixed Tasks">
+    </form>
+
+    <script>
+        // Add functionality to allow the user to add more fixed tasks dynamically
+        function addFixedTask() {
+            const container = document.getElementById('fixed-tasks-container');
+            const newTask = document.createElement('div');
+            newTask.classList.add('fixed-task');
+            newTask.innerHTML = `
+                <label for="task_name">Task Name:</label>
+                <input type="text" name="task_name[]" required><br>
+
+                <label for="start_time">Start Time:</label>
+                <input type="time" name="start_time[]" required><br>
+
+                <label for="end_time">End Time:</label>
+                <input type="time" name="end_time[]" required><br>
+            `;
+            container.appendChild(newTask);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Scheduler</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+</head>
+<body>
+    <h1>Welcome to Your Task Scheduler</h1>
+    <!-- Section to display tasks -->
+    <div id="task-list">
+        <h2>Your Tasks</h2>
+        
+            <!-- Tasks will be dynamically inserted here -->
+        <h3>Preferred Tasks</h3>
+        <ul>
+            {% for task in tasks %}
+            <li>
+                Task: {{task.name}}, 
+                Priority: {{task.priority}}, 
+                Category: {{task.category}}, 
+                Est Time Required: {{task.length}} hr(s)
+                <form action="/delete_task" method="POST" style="display:inline;">
+                    <input type="hidden" name="task_id" value="{{ task.id }}">
+                    <button type="submit">Remove</button>
+                </form>
+            </li>
+            {% endfor %}
+        </ul>
+        <h3>Required Tasks</h3>
+        <ul>
+            {% for task in fixed_tasks %}
+            <li>
+                Task: {{task.name}},
+                Start time: {{task.start}}-{{task.end}}
+                <form action="/delete_fixed_task" method="POST" style="display:inline;">
+                    <input type="hidden" name="fixed_task_id" value="{{ task.id }}">
+                    <button type="submit">Remove</button>
+                </form>
+            </li>
+            {% endfor %}
+        </ul>
+        <form action="/generate_schedule" method="POST"  style="display:inline;">
+            <button type="submit">Generate Schedule</button>
+        </form>
+    </div>
+
+    <!-- Section to add a new task -->
+    <div id="add-task">
+        <h2>Add a New Task</h2>
+        <form action="/add_task" method="POST">
+            <label for="required">Required?</label>
+            <input type="checkbox" id="required" name="required"><br>
+
+            <label for="task">Task:</label>
+            <input type="text" id="task" name="task"><br>
+
+            <div id="time-frame" style="display: none;">
+                <label for="start_time">Start Time:</label>
+                <input type="time" id="start_time" name="start_time"><br>
+
+                <label for="end_time">End Time:</label>
+                <input type="time" id="end_time" name="end_time"><br>
+            </div>
+
+            <div id="optional-fields">
+            <label for="priority">Priority (1-10):</label>
+            <input type="number" id="priority" name="priority" min="1" max="10" value ="1"><br>
+
+            <label for="category">Category (Eat, Study, Recreation, Chore)</label>
+            <select name="category", id = "category">
+                <option value="" disabled selected>Pick an option</option> <!-- Default option -->
+                <option value="Eat">Eat</option>
+                <option value="Study">Study</option>
+                <option value="Recreation">Recreation</option>
+                <option value="Chore">Chore</option>
+            </select><br>
+
+            <label for="length">Est Time Required (Hrs):</label>
+            <input type="number" id="length", name="length", step="0.5" min="0" max="5" value="0"><br>
+            </div>
+
+            <button type="submit">Add Task</button>
+        </form>
+    </div>
+    <script>
+        // Get form elements
+        const requiredCheckbox = document.getElementById('required');
+        const timeFrameDiv = document.getElementById('time-frame');
+        const startTimeInput = document.getElementById('start_time');
+        const endTimeInput = document.getElementById('end_time');
+        const optionalFieldsDiv = document.getElementById('optional-fields');
+
+        // Show or hide fields based on the "Required?" checkbox
+        requiredCheckbox.addEventListener('change', function() {
+            if (this.checked) {
+                timeFrameDiv.style.display = 'block';
+                optionalFieldsDiv.style.display = 'none'; // Hide other fields
+
+                // Make time fields required
+                startTimeInput.required = true;
+                endTimeInput.required = true;
+
+                // Remove required attributes from optional fields
+                document.getElementById('task').required = false;
+                document.getElementById('category').required = false;
+
+                // Optionally, clear values of optional fields
+                document.getElementById('task').value = '';
+                document.getElementById('priority').value = '1';
+                document.getElementById('category').selectedIndex = 0;
+                document.getElementById('length').value = '0';
+            } else {
+                timeFrameDiv.style.display = 'none';
+                optionalFieldsDiv.style.display = 'block'; // Show other fields
+
+                // Remove required attributes from time fields
+                startTimeInput.required = false;
+                endTimeInput.required = false;
+
+                // Make optional fields required
+                document.getElementById('task').required = true;
+                document.getElementById('category').required = true;
+            }
+        });
+        function parseTimeString(timeStr) {
+            const parts = timeStr.split(':');
+            const hours = parseInt(parts[0], 10);
+            const minutes = parseInt(parts[1], 10);
+            return hours * 60 + minutes;
+        }
+        // Additional validation on form submission
+        taskForm.addEventListener('submit', function(event) {
+            if (requiredCheckbox.checked) {
+                const startTime = startTimeInput.value;
+                const endTime = endTimeInput.value;
+
+                if (!startTime || !endTime) {
+                    alert('Please specify both start and end times for a required task.');
+                    event.preventDefault(); // Prevent form submission
+                    return;
+                }
+
+                const startMinutes = parseTimeString(startTime);
+                const endMinutes = parseTimeString(endTime);
+                if (endMinutes<=startMinutes) {
+                    alert('Start time must be before end time.');
+                    event.preventDefault();
+                }
+            }
+        });
+    </script>
+</body>
+</html>

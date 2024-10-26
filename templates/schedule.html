@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Generated Schedule</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+
+<body>
+    <div id="container">
+        <header>
+            <h1>Your Generated Schedule</h1>
+        </header>
+
+        <!-- Schedule Table -->
+        <table id="schedule-table">
+            <thead>
+                <tr>
+                    <th>Task</th>
+                    <th>Category</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                    <th>Duration</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for task in schedule %}
+                <tr>
+                    <td>{{ task.name }}</td>
+                    <td>{{ task.category }}</td>
+                    <td>{{ task.start_time }}</td>
+                    <td>{{ task.end_time }}</td>
+                    <td>{{ task.hours }} hr {% if task.minutes > 0 %} {{ task.minutes }} min {% endif %}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Back Button -->
+        <div class="back-button-container">
+            <a href="/" class="back-btn">Back to Task List</a>
+        </div>
+    </div>
+</body>
+
+</html>
+

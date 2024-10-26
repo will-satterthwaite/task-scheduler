@@ -1,0 +1,72 @@
+/* Global Styles */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: #f7f9fc;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+}
+
+/* Container to center everything */
+#container {
+    width: 90%;
+    max-width: 900px;
+    margin-top: 50px;
+}
+
+/* Center the Welcome Message */
+header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+h1 {
+    font-size: 42px;
+    color: #2c3e50;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    background: linear-gradient(to right, #6a82fb, #fc5c7d);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Table Styling */
+#schedule-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+#schedule-table th, #schedule-table td {
+    padding: 15px;
+    text-align: center;
+    font-size: 18px;
+    border-bottom: 1px solid #e1e5ea;
+}
+
+#schedule-table th {
+    background-color: #6a82fb;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+#schedule-table tr:nth-child(even) {
+    background-color: #f7f9fc;
+}
+
+#schedule-table tr:hover {
+    background-color: #f1f3f5;
+}
+
+#schedule-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* Back
