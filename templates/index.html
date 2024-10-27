@@ -10,80 +10,82 @@
 <body>
     <h1>Welcome to Your Task Scheduler</h1>
     <!-- Section to display tasks -->
-    <div id="task-list">
-        <h2>Your Tasks</h2>
-        
-            <!-- Tasks will be dynamically inserted here -->
-        <h3>Preferred Tasks</h3>
-        <ul>
-            {% for task in tasks %}
-            <li>
-                Task: {{task.name}}, 
-                Priority: {{task.priority}}, 
-                Category: {{task.category}}, 
-                Est Time Required: {{task.length}} hr(s)
-                <form action="/delete_task" method="POST" style="display:inline;">
-                    <input type="hidden" name="task_id" value="{{ task.id }}">
-                    <button type="submit">Remove</button>
-                </form>
-            </li>
-            {% endfor %}
-        </ul>
-        <h3>Required Tasks</h3>
-        <ul>
-            {% for task in fixed_tasks %}
-            <li>
-                Task: {{task.name}},
-                Start time: {{task.start}}-{{task.end}}
-                <form action="/delete_fixed_task" method="POST" style="display:inline;">
-                    <input type="hidden" name="fixed_task_id" value="{{ task.id }}">
-                    <button type="submit">Remove</button>
-                </form>
-            </li>
-            {% endfor %}
-        </ul>
-        <form action="/generate_schedule" method="POST"  style="display:inline;">
-            <button type="submit">Generate Schedule</button>
-        </form>
-    </div>
+    <div id="container">
+        <div id="task-list">
+            <h2>Your Tasks</h2>
+            
+                <!-- Tasks will be dynamically inserted here -->
+            <h3>Preferred Tasks</h3>
+            <ul>
+                {% for task in tasks %}
+                <li>
+                    Task: {{task.name}}, 
+                    Priority: {{task.priority}}, 
+                    Category: {{task.category}}, 
+                    Est Time Required: {{task.length}} hr(s)
+                    <form action="/delete_task" method="POST" style="display:inline;">
+                        <input type="hidden" name="task_id" value="{{ task.id }}">
+                        <button type="submit">Remove</button>
+                    </form>
+                </li>
+                {% endfor %}
+            </ul>
+            <h3>Required Tasks</h3>
+            <ul>
+                {% for task in fixed_tasks %}
+                <li>
+                    Task: {{task.name}},
+                    Start time: {{task.start}}-{{task.end}}
+                    <form action="/delete_fixed_task" method="POST" style="display:inline;">
+                        <input type="hidden" name="fixed_task_id" value="{{ task.id }}">
+                        <button type="submit">Remove</button>
+                    </form>
+                </li>
+                {% endfor %}
+            </ul>
+            <form action="/generate_schedule" method="POST"  style="display:inline;">
+                <button type="submit">Generate Schedule</button>
+            </form>
+        </div>
 
-    <!-- Section to add a new task -->
-    <div id="add-task">
-        <h2>Add a New Task</h2>
-        <form action="/add_task" method="POST">
-            <label for="required">Required?</label>
-            <input type="checkbox" id="required" name="required"><br>
+        <!-- Section to add a new task -->
+        <div id="add-task">
+            <h2>Add a New Task</h2>
+            <form action="/add_task" method="POST">
+                <label for="required">Required?</label>
+                <input type="checkbox" id="required" name="required"><br>
 
-            <label for="task">Task:</label>
-            <input type="text" id="task" name="task"><br>
+                <label for="task">Task:</label>
+                <input type="text" id="task" name="task"><br>
 
-            <div id="time-frame" style="display: none;">
-                <label for="start_time">Start Time:</label>
-                <input type="time" id="start_time" name="start_time"><br>
+                <div id="time-frame" style="display: none;">
+                    <label for="start_time">Start Time:</label>
+                    <input type="time" id="start_time" name="start_time"><br>
 
-                <label for="end_time">End Time:</label>
-                <input type="time" id="end_time" name="end_time"><br>
-            </div>
+                    <label for="end_time">End Time:</label>
+                    <input type="time" id="end_time" name="end_time"><br>
+                </div>
 
-            <div id="optional-fields">
-            <label for="priority">Priority (1-10):</label>
-            <input type="number" id="priority" name="priority" min="1" max="10" value ="1"><br>
+                <div id="optional-fields">
+                <label for="priority">Priority (1-10):</label>
+                <input type="number" id="priority" name="priority" min="1" max="10" value ="1"><br>
 
-            <label for="category">Category (Eat, Study, Recreation, Chore)</label>
-            <select name="category", id = "category">
-                <option value="" disabled selected>Pick an option</option> <!-- Default option -->
-                <option value="Eat">Eat</option>
-                <option value="Study">Study</option>
-                <option value="Recreation">Recreation</option>
-                <option value="Chore">Chore</option>
-            </select><br>
+                <label for="category">Category (Eat, Study, Recreation, Chore)</label>
+                <select name="category", id = "category">
+                    <option value="" disabled selected>Pick an option</option> <!-- Default option -->
+                    <option value="Eat">Eat</option>
+                    <option value="Study">Study</option>
+                    <option value="Recreation">Recreation</option>
+                    <option value="Chore">Chore</option>
+                </select><br>
 
-            <label for="length">Est Time Required (Hrs):</label>
-            <input type="number" id="length", name="length", step="0.5" min="0" max="5" value="0"><br>
-            </div>
+                <label for="length">Est Time Required (Hrs):</label>
+                <input type="number" id="length", name="length", step="0.5" min="0" max="5" value="0"><br>
+                </div>
 
-            <button type="submit">Add Task</button>
-        </form>
+                <button type="submit">Add Task</button>
+            </form>
+        </div>
     </div>
     <script>
         // Get form elements
